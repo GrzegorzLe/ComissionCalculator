@@ -20,7 +20,7 @@ class CommissionCalculatorTest extends TestCase
         ] );
         $handlerStack = HandlerStack::create( $mock );
         $config[ 'handler' ] = $handlerStack;
-        $this->commissionCalculator = new CommissionCalculator( $config, $config2 );
+        $this->commissionCalculator = new CommissionCalculator( $config2, $config );
     }
 
     public function testEuBinEurCurrency( )
@@ -29,7 +29,7 @@ class CommissionCalculatorTest extends TestCase
             'amount' => 100.00,
             'currency' => 'EUR',
             'bin' => '45717360',
-            ] ), 2.0 );
+            ] ), 1.0 );
     }
 
     public function testEuBinUsdCurrency( )
@@ -38,7 +38,7 @@ class CommissionCalculatorTest extends TestCase
             'amount' => 50.00,
             'currency' => 'USD',
             'bin' => '516793',
-            ] ), 0.91 );
+            ] ), 0.46 );
     }
 
     public function testNonEuBinEurCurrency( )
@@ -56,6 +56,6 @@ class CommissionCalculatorTest extends TestCase
             'amount' => 10000.00,
             'currency' => 'JPY',
             'bin' => '4745030',
-            ] ), 1.53 );
+            ] ), 1.55 );
     }
 }
