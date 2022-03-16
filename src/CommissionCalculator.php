@@ -12,7 +12,7 @@ class CommissionCalculator
     private BinClient $binClient;
     private RateClient $rateClient;
 
-    public function __construct( $binConfig, $rateConfig = null )
+    public function __construct( array $binConfig, array $rateConfig = null )
     {
         if ( $rateConfig === null )
             $rateConfig = $binConfig;
@@ -22,13 +22,13 @@ class CommissionCalculator
         return $this;
     }
 
-    public function calculate( $entry, $precision = 2 )
+    public function calculate( $entry, int $precision = 2 ): string
     {
         return static::roundUp( $entry[ 'amount' ] / $this->rateClient->getExchangeRate( $entry[ 'currency' ] ) *
             $this->getCommissionRate( $entry[ 'bin' ] ), $precision );
     }
 
-    private function getCommissionRate( $bin )
+    private function getCommissionRate( $bin ): string
     {
         $commissionRate = 0.02;
         if ( $this->binClient->isEuBin( $bin ) )
@@ -36,7 +36,7 @@ class CommissionCalculator
         return $commissionRate;
     }
 
-    private static function roundUp( $amount, $precision = 0 )
+    private static function roundUp( $amount, int $precision = 0 )
     {
         $multiplier = pow( 10, $precision );
         return ceil( $amount * $multiplier ) / $multiplier;
